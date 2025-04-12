@@ -100,8 +100,8 @@ def get_files(tool_name: str) -> List[Dict[str, Any]]:
         # 处理数据，提取需要的字段并构建下载链接
         files = [{
             "name": item["name"],
-            "raw_url": f"{RAW_BASE_URL}/rule/{tool_name}/{item['name']}.list" if item["type"] == "dir" else item["download_url"],
-            "github_url": f"{GITHUB_BASE_URL}/rule/{tool_name}/{item['name']}.list" if item["type"] == "dir" else item["html_url"],
+            "path": item["path"],
+            "url": item["url"],
             "type": item["type"]
         } for item in response.json()]
         
@@ -151,8 +151,8 @@ def get_file_url(tool_name: str, file_name: str) -> Dict[str, str]:
         for file in files:
             if file["name"] == file_name:
                 return {
-                    "raw_url": file["raw_url"],
-                    "github_url": file["github_url"]
+                    "raw_url": f"{RAW_BASE_URL}/{file['path']}/{file['name']}.list",
+                    "url": file["url"]
                 }
                 
         # 未找到指定文件
